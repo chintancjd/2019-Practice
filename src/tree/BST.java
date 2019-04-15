@@ -9,10 +9,12 @@ public class BST<Key extends Comparable<Key>, Value> {
         Value value;
         Node left;
         Node right;
+        int count;
 
-        public Node(Key key, Value value) {
+        public Node(Key key, Value value, int count) {
             this.key = key;
             this.value = value;
+            this.count = count;
         }
     }
 
@@ -36,12 +38,22 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     private Node put(Node x, Key key, Value value) {
-        if(x == null) return new Node(key, value);
+        if(x == null) return new Node(key, value, 0);
         int cmp = key.compareTo(x.key);
         if(cmp < 0 ) x.left = put(x.left, key, value);
         else if(cmp > 0 ) x.right = put(x.right, key, value);
         else x.value = value;
+        x.count = size(x.left) + size(x.right) +1;
         return x;
+    }
+
+    public int size(){
+        return size(root);
+    }
+
+    private int size(Node x){
+        if(x==null) return 0;
+        return x.count;
     }
 
     public Value getMin(){
@@ -96,5 +108,61 @@ public class BST<Key extends Comparable<Key>, Value> {
             if(t != null) return t;
             else return x;
         }
+    }
+
+    public int rank(Key key){
+        return rank(root, key);
+    }
+
+    private int rank(Node x, Key key){
+        if(x==null) return 0;
+        int cmp = key.compareTo(x.key);
+        if(cmp<0) return rank(x.left, key);
+        else if(cmp>0) return 1+size(x.left)+rank(x.right, key);
+        else return size(x.left);
+    }
+
+    public void inOrder(){
+        inOrder(root);
+    }
+
+    private void inOrder(Node x){
+        if(x==null) return;
+        inOrder(x.left);
+        System.out.println(x.value);
+        inOrder(x.right);
+    }
+
+    public void preOrder(){
+        preOrder(root);
+    }
+
+    private void preOrder(Node x){
+        if(x==null) return;
+        System.out.println(x.value);
+        preOrder(x.left);
+        preOrder(x.right);
+    }
+
+    public void postOrder(){
+        postOrder(root);
+    }
+
+    private void postOrder(Node x){
+        if(x==null) return;
+        postOrder(x.left);
+        postOrder(x.right);
+        System.out.println(x.value);
+    }
+
+    public void deleteMin(){
+
+    }
+
+    private Node deleteMin(Node x){
+        if(x.left == null) return x.right;
+        x.left = deleteMin(x.left);
+        x.count = 1+ size(x.left)+size(x.right);
+        return x;
     }
 }
