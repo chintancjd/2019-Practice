@@ -1,0 +1,14 @@
+This repo covers the following:
+- Union Find
+- LinkedList
+- Stacks & Queues
+- Elementary Sorting
+- Merge Sort
+- Quick Sort
+- Priority Queues
+    - Min Priority Queue
+    - Max Priority Queue
+- Heap Sort
+- Binary Search Trees
+- 2-3 Trees
+- Red Black Trees
